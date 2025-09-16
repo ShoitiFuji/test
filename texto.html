@@ -66,24 +66,39 @@
       margin-top: 10px;
       font-size: 0.9rem;
     }
+    .restart {
+      background: #fff;
+      color: #333;
+      padding: 10px 20px;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+    .restart:hover {
+      opacity: 0.9;
+    }
   </style>
 </head>
 <body>
 
   <div class="card">
     <h1>Isso ou Aquilo</h1>
-    <p class="progress" id="progress">Pergunta 1 de 15</p>
+    <p class="progress" id="progress">Pergunta 1 de 30</p>
     <p class="question" id="question">Carregando pergunta...</p>
     <div class="options">
-      <button class="hetero" onclick="selectOption('hetero')">Opção Hétero</button>
-      <button class="gay" onclick="selectOption('gay')">Opção Gay</button>
+      <button class="hetero" onclick="selectOption('hetero')">Opção 1</button>
+      <button class="gay" onclick="selectOption('gay')">Opção 2</button>
     </div>
     <div class="result" id="result"></div>
+    <button class="restart" id="restart" style="display:none;" onclick="restartQuiz()">Recomeçar</button>
   </div>
 
   <script>
-    // 15 perguntas
-  { hetero: "Jogar futebol com amigos ⚽", gay: "Assistir dorama 🎥" },
+    // 30 perguntas
+    const questions = [
+      { hetero: "Jogar futebol com amigos ⚽", gay: "Assistir dorama 🎥" },
       { hetero: "Beber cerveja litrão 🍻", gay: "Beber drink colorido 🍹" },
       { hetero: "Fazer churrasco 🍖", gay: "Organizar brunch 🥐" },
       { hetero: "Assistir UFC 🥊", gay: "Assistir RuPaul's Drag Race 👑" },
@@ -122,6 +137,7 @@
     const questionEl = document.getElementById('question');
     const resultEl = document.getElementById('result');
     const progressEl = document.getElementById('progress');
+    const restartBtn = document.getElementById('restart');
 
     function loadQuestion() {
       if (currentQuestion < questions.length) {
@@ -155,6 +171,18 @@
         🔵 ${heteroPercent}% Coisas de Hétero <br>
         🌈 ${gayPercent}% Coisas de Gente Gay
       `;
+      restartBtn.style.display = 'inline-block';
+    }
+
+    function restartQuiz() {
+      currentQuestion = 0;
+      heteroPoints = 0;
+      gayPoints = 0;
+      document.querySelector('.options').style.display = 'block';
+      progressEl.style.display = 'block';
+      restartBtn.style.display = 'none';
+      resultEl.innerHTML = '';
+      loadQuestion();
     }
 
     loadQuestion();
@@ -162,4 +190,3 @@
 
 </body>
 </html>
-
