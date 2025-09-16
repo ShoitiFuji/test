@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Isso ou Aquilo – Brincadeira</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #3498db, #e91e63);
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
+    }
+    .card {
+      background: rgba(255,255,255,0.1);
+      border-radius: 20px;
+      padding: 30px;
+      width: 100%;
+      max-width: 600px;
+      text-align: center;
+      box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    }
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 10px;
+    }
+    .question {
+      font-size: 1.2rem;
+      margin-bottom: 20px;
+    }
+    .options button {
+      width: 45%;
+      padding: 12px;
+      margin: 10px;
+      border: none;
+      border-radius: 15px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.3s;
+      white-space: normal;
+    }
+    .hetero {
+      background: #3498db;
+      color: #fff;
+    }
+    .gay {
+      background: #e91e63;
+      color: #fff;
+    }
+    .options button:hover {
+      transform: scale(1.05);
+      opacity: 0.9;
+    }
+    .result {
+      margin-top: 20px;
+      font-size: 1.3rem;
+      font-weight: bold;
+    }
+    .progress {
+      margin-top: 10px;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <h1>Isso ou Aquilo</h1>
+    <p class="progress" id="progress">Pergunta 1 de 15</p>
+    <p class="question" id="question">Carregando pergunta...</p>
+    <div class="options">
+      <button class="hetero" onclick="selectOption('hetero')">Opção Hétero</button>
+      <button class="gay" onclick="selectOption('gay')">Opção Gay</button>
+    </div>
+    <div class="result" id="result"></div>
+  </div>
+
+  <script>
+    // 15 perguntas
+    const questions = [
+      { hetero: "Jogou futebol com amigos ⚽", gay: "Aprendeu coreografia no TikTok 💃" },
+      { hetero: "Fez churrasco 🍖", gay: "Organizou brunch decorado 🥐" },
+      { hetero: "Assistiu UFC 🥊", gay: "Assistiu RuPaul's Drag Race 👑" },
+      { hetero: "Usou boné pra trás 🧢", gay: "Fez skincare completo 🧴" },
+      { hetero: "Bebeu cerveja litrão 🍻", gay: "Pediu drink colorido 🍹" },
+      { hetero: "Consertou algo em casa 🔧", gay: "Decorou o quarto com velas 🕯️" },
+      { hetero: "Postou foto dirigindo 🚗", gay: "Postou selfie com pose elaborada 📸" },
+      { hetero: "Jogou videogame FPS 🎮", gay: "Jogou The Sims ou Just Dance 🎶" },
+      { hetero: "Comprou camisa de time 👕", gay: "Comprou camisa floral 🌸" },
+      { hetero: "Mandou áudio seco no WhatsApp 📲", gay: "Mandou áudio cheio de emojis 😍" },
+      { hetero: "Assistiu filme de ação 🎬", gay: "Assistiu musical ou comédia romântica 🎭" },
+      { hetero: "Ajudou amigo a trocar pneu 🚗", gay: "Ajudou amigo a escolher look 👔" },
+      { hetero: "Fez aposta em jogo ⚽", gay: "Fez mapa astral ✨" },
+      { hetero: "Perfume amadeirado 🕺", gay: "Perfume doce/unissex 💐" },
+      { hetero: "Tomou banho em 5 minutos 🚿", gay: "Banho longo ouvindo diva pop 🎧" }
+    ];
+
+    let currentQuestion = 0;
+    let heteroPoints = 0;
+    let gayPoints = 0;
+
+    const questionEl = document.getElementById('question');
+    const resultEl = document.getElementById('result');
+    const progressEl = document.getElementById('progress');
+
+    function loadQuestion() {
+      if (currentQuestion < questions.length) {
+        progressEl.textContent = `Pergunta ${currentQuestion + 1} de ${questions.length}`;
+        questionEl.textContent = `Escolha uma opção:`;
+        document.querySelector('.hetero').textContent = questions[currentQuestion].hetero;
+        document.querySelector('.gay').textContent = questions[currentQuestion].gay;
+      } else {
+        showResult();
+      }
+    }
+
+    function selectOption(choice) {
+      if (choice === 'hetero') heteroPoints++;
+      if (choice === 'gay') gayPoints++;
+      currentQuestion++;
+      loadQuestion();
+    }
+
+    function showResult() {
+      const total = heteroPoints + gayPoints;
+      const heteroPercent = Math.round((heteroPoints / total) * 100);
+      const gayPercent = Math.round((gayPoints / total) * 100);
+
+      questionEl.textContent = "Resultado Final:";
+      document.querySelector('.options').style.display = 'none';
+      progressEl.style.display = 'none';
+
+      resultEl.innerHTML = `
+        🌟 Você marcou:<br><br>
+        🔵 ${heteroPercent}% Coisas de Hétero <br>
+        🌈 ${gayPercent}% Coisas de Gente Gay
+      `;
+    }
+
+    loadQuestion();
+  </script>
+
+</body>
+</html>
